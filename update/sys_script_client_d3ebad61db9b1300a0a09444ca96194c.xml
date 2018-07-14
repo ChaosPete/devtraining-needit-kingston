@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description>Only display What needed choices that match the Request type value.&#13;
+...with array</description>
+        <field>u_request_type</field>
+        <global>true</global>
+        <messages/>
+        <name>NeedIt Request Type Options 2</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+	
+	if (newValue === '') {
+		return;
+	}
+
+	//Type appropriate comment here, and begin script below
+	var whatNeeded = g_form.getValue('u_what_needed');
+	var reqTypeOptions = [];
+	
+	// Clear all of the choices from the What needed field choice lis
+	g_form.clearOptions('u_what_needed');
+	
+	
+	// Populate the "What needed" fields choice list:
+	//   1) If Request type field is "hr" --> two hr choices + "Other"
+	if (newValue === 'hr') {
+		reqTypeOptions = [
+			{code:'hr1', text:'Human Resources 1'},
+			{code:'hr2', text:'Human Resources 2'},
+			{code:'other', text:'Other'}
+		];
+	}
+	
+	//   2) If Request type field is "facilities" -->
+	//      two facility choices + "Other"
+	if (newValue === 'facilities') {
+		reqTypeOptions = [
+			{code:'facilities1', text:'Facilities 1'},
+			{code:'facilities2', text:'Facilities 2'},
+			{code:'other', text:'Other'}
+		];
+	}
+	
+	//   3) If Request type field is "legal" --> two legal choices
+	//      + "Other"
+	if (newValue === 'legal') {
+		reqTypeOptions = [
+			{code:'legal1', text:'Legal 1'},
+			{code:'legal2', text:'Legal 2'},
+			{code:'other', text:'Other'}
+		];
+	}
+	
+	
+	var numOfElems = reqTypeOptions.length;
+	var optCode = '', optText = '';
+jslog('num of elements : ' +  numOfElems);
+	
+	if (numOfElems > 0) {
+		for (i = 0; i < numOfElems; i++) {
+			
+jslog('OPT : ' + i);
+jslog('  > ' + reqTypeOptions[i].code + ', ' + reqTypeOptions[i].text);
+			
+			optCode = reqTypeOptions[i].code;
+			optText = reqTypeOptions[i].text;
+			
+			try {
+				g_form.addOption(
+					'u_what_needed',
+					optCode,
+					optText
+				);
+jslog('...chk1 : ' + i + ', ' + numOfElems);
+			}
+			catch (err) {
+jslog('...ERR :');
+jslog(err.message);
+			}
+
+jslog('...chk2 : ' + i + ', ' + numOfElems);
+
+		} // for i...
+	}
+	
+	
+	// If the form is loading and it is not a new record,
+	//   set the u_what_needed value to the
+	//   value from the record before it was loaded
+	if (isLoading && !g_form.isNewRecord()) {
+		g_form.setValue('u_what_needed', whatNeeded);
+	}
+
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-07-14 11:39:05</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>d3ebad61db9b1300a0a09444ca96194c</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>NeedIt Request Type Options 2</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_client_d3ebad61db9b1300a0a09444ca96194c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-07-14 14:30:59</sys_updated_on>
+        <table>x_58872_needit_needit</table>
+        <type>onChange</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>
